@@ -1,0 +1,12 @@
+{
+  "name": "chat-server-reference",
+  "version": "1.0.0",
+  "description": "Backend de referencia mínimo con Socket.io",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.4"
+  }
+}
