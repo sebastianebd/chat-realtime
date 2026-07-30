@@ -1,15 +1,11 @@
 import { io, Socket } from "socket.io-client";
-import type { ChatMessage } from "../store/chatStore";
+import type {
+  ChatMessage,
+  ServerToClientEvents,
+  ClientToServerEvents,
+} from "../types/chat";
 
 const URL = "http://localhost:3001";
-
-interface ServerToClientEvents {
-  message: (data: ChatMessage) => void;
-}
-
-interface ClientToServerEvents {
-  message: (data: ChatMessage) => void;
-}
 
 class SocketService {
   public socket: Socket<ServerToClientEvents, ClientToServerEvents> | null =

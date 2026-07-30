@@ -1,17 +1,5 @@
 import { create } from "zustand";
-
-export interface ChatMessage {
-  id: string;
-  sender: string;
-  avatar: string;
-  text: string;
-  timestamp: number;
-}
-
-export interface UserProfile {
-  username: string;
-  avatar: string;
-}
+import type { ChatMessage, UserProfile } from "../types/chat";
 
 export interface ChatState {
   connected: boolean;
@@ -19,6 +7,7 @@ export interface ChatState {
   user: UserProfile | null;
   setConnected: (status: boolean) => void;
   addMessage: (msg: ChatMessage) => void;
+  setMessages: (msgs: ChatMessage[]) => void;
   setUser: (user: UserProfile) => void;
   logout: () => void;
 }
@@ -43,6 +32,10 @@ export const useChatStore = create<ChatState>((set) => ({
       localStorage.setItem("chat_messages", JSON.stringify(updated));
       return { messages: updated };
     }),
+  setMessages: (msgs) => {
+    localStorage.setItem("chat_messages", JSON.stringify(msgs));
+    set({ messages: msgs });
+  },
   setUser: (user) => {
     localStorage.setItem("chat_user", JSON.stringify(user));
     set({ user });

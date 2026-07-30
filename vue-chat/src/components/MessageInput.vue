@@ -2,21 +2,14 @@
 import { ref } from "vue";
 import { socketService } from "../services/socket";
 import { useChatStore } from "../store/chatStore";
+import { createMessage } from "../utils/messageFactory";
 
 const chatStore = useChatStore();
 const text = ref("");
 
 const handleSend = () => {
   if (text.value.trim() && chatStore.user) {
-    const message = {
-      id: crypto.randomUUID(),
-      sender: chatStore.user.username,
-      avatar: chatStore.user.avatar,
-      text: text.value.trim(),
-      timestamp: Date.now(),
-    };
-
-    socketService.sendMessage(message);
+    socketService.sendMessage(createMessage(text.value, chatStore.user));
     text.value = "";
   }
 };

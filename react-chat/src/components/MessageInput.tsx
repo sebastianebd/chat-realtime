@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { socketService } from "../services/socket";
 import { useChatStore } from "../store/chatStore";
+import { createMessage } from "../utils/messageFactory";
 
 export function MessageInput() {
   const [text, setText] = useState("");
@@ -9,15 +10,7 @@ export function MessageInput() {
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     if (text.trim() && user) {
-      const message = {
-        id: crypto.randomUUID(),
-        sender: user.username,
-        avatar: user.avatar,
-        text: text.trim(),
-        timestamp: Date.now(),
-      };
-
-      socketService.sendMessage(message);
+      socketService.sendMessage(createMessage(text, user));
       setText("");
     }
   };

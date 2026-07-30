@@ -1,17 +1,30 @@
-const io = require("socket.io")(3001, {
-  cors: { origin: "*" },
+const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
+const config = require("./config");
+const { chatHandler } = require("./handlers/chatHandler");
+
+const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: config.allowedOrigins,
+    methods: ["GET", "POST"],
+  },
 });
 
-io.on("connection", (socket) => {
-  console.log(`Usuario conectado: ${socket.id}`);
+const { messageHistory } = chatHandler(io);
 
-  socket.on("message", (msg) => {
-    io.emit("message", msg);
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`Usuario desconectado: ${socket.id}`);
+app.get("/health", (_req, res) => {
+  res.json({
+    status: "ok",
+    connections: io.engine.clientsCount,
+    messagesInHistory: messageHistory.length,
   });
 });
 
-console.log("Socket.io escuchando en el puerto 3001");
+server.listen(config.port, () => {
+  console.log(`Servidor escuchando en http://localhost:${config.port}`);
+  console.log(`Origenes permitidos: ${config.allowedOrigins.join(", ")}`);
+});

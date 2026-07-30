@@ -1,18 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-
-export interface ChatMessage {
-  id: string;
-  sender: string;
-  avatar: string;
-  text: string;
-  timestamp: number;
-}
-
-export interface UserProfile {
-  username: string;
-  avatar: string;
-}
+import type { ChatMessage, UserProfile } from "../types/chat";
 
 const loadMessages = (): ChatMessage[] => {
   try {
@@ -35,6 +23,11 @@ export const useChatStore = defineStore("chat", () => {
   function addMessage(msg: ChatMessage) {
     messages.value.push(msg);
     localStorage.setItem("chat_messages", JSON.stringify(messages.value));
+  }
+
+  function setMessages(msgs: ChatMessage[]) {
+    messages.value = msgs;
+    localStorage.setItem("chat_messages", JSON.stringify(msgs));
   }
 
   function setUser(newUser: UserProfile) {
@@ -64,6 +57,7 @@ export const useChatStore = defineStore("chat", () => {
     user,
     setConnected,
     addMessage,
+    setMessages,
     setUser,
     logout,
   };
