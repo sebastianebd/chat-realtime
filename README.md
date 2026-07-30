@@ -99,15 +99,19 @@ El servidor va más allá del ejemplo de referencia:
 
 ### 3. Testing
 
-Ambas aplicaciones incluyen suites de tests con **Vitest**:
+El proyecto cuenta con cobertura de pruebas en sus tres capas (Frontend React, Frontend Vue y Backend Node.js) usando **Vitest**:
 
-- **Unit Tests del Store**: Validan operaciones CRUD, persistencia en localStorage, y limpieza en logout.
-- **Unit Tests de Utilidades**: Verifican la factory de mensajes (UUID único, trimming, timestamps).
-- **Component Tests**: Verifican el renderizado del indicador de conexión (🟢/🔴) y la información del usuario.
+- **Tests de Interfaz y Estado (React/Vue)**:
+  - Unit Tests del Store: Validan operaciones CRUD, persistencia en localStorage, y limpieza en logout.
+  - Component Tests: Verifican el renderizado del indicador de conexión (🟢/🔴) interactuando con el DOM.
+- **Tests del Servidor (Node.js)**:
+  - Unit Tests: Validan la sanitización y validación estricta de payloads.
+  - Integration Tests: Levantan un servidor Socket.io en memoria para probar el broadcast de mensajes y bloqueo de tramas inválidas.
 
-```
-React: 3 archivos, 13 tests ✅
-Vue:   3 archivos, 13 tests ✅
+```text
+React:   3 archivos, 13 tests ✅
+Vue:     3 archivos, 13 tests ✅
+Node.js: 2 archivos, 10 tests ✅
 ```
 
 ### 4. Buenas Prácticas de Ingeniería
