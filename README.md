@@ -50,6 +50,7 @@ npm run dev
 ```bash
 cd react-chat && npm test
 cd vue-chat && npm test
+cd server && npm test
 ```
 
 ---
